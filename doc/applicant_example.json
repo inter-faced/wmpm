@@ -1,0 +1,118 @@
+{
+     "applicationinfo":
+     {
+       "applicationid": "354842054",
+       "date": "05.05.2015",
+       "time": "10:15:30",
+       "attachments":
+       [
+           {
+             "type": "Photo",
+             "filename": "354842054_myphoto.jpg",
+             "description": "me smiling in the camera"
+           },
+           {
+             "type": "Document",
+             "filename": "354842054_cv.pdf",
+             "description": "My curriculum vitae as pdf"
+           }
+       ]
+     },
+     "firstName": "John",
+     "lastName": "Smith",
+     "birthday": "22.04.1990",
+     "address":
+     {
+         "streetAddress": "21 2nd Street",
+         "city": "New York",
+         "state": "NY",
+         "postalCode": "10021"
+     },
+     "phoneNumber":
+     [
+         {
+           "type": "home",
+           "number": "212 555-1234"
+         },
+         {
+           "type": "fax",
+           "number": "646 555-4567"
+         }
+     ],
+     "email":
+     [
+         {
+           "type": "work",
+           "number": "iamatwork@busy.com"
+         },
+         {
+           "type": "private",
+           "number": "my@privatemail.com"
+         }
+     ],
+     "socialnetworks":
+     [
+         {
+           "type": "twitter",
+           "nickname": "hashtagcool"
+         },
+         {
+           "type": "facebook",
+           "directlink": "https://www.facebook.com/JonSmith"
+         },
+         {
+           "type": "linkedin",
+           "directlink": "https://at.linkedin.com/in/thomasbiasion"
+         }
+     ],
+     "education":
+     [
+         {
+           "uni_name": "TU Vienna",
+           "diploma": "MSc",
+           "grad_year": "2015",
+           "score": "2.34"
+         },
+         {
+           "uni_name": "TU Munich",
+           "diploma": "BSc",
+           "grad_year": "2013",
+           "score": "3.33"
+         },
+         {
+           "uni_name": "Hauptschule Hamburg",
+           "diploma": "secondary school",
+           "grad_year": "2013",
+           "score": "3.33"
+         }
+     ],
+     "experience":
+     [
+         {
+           "empl_name": "Siemens",
+           "position": "intern",
+           "start": "02.2014",
+           "end": "04.2014",
+           "description": "software development"
+         },
+         {
+           "empl_name": "BMW",
+           "position": "intern",
+           "start": "06.2012",
+           "end": "08.2012",
+           "description": "prepare coffee"
+         }
+     ],
+     "languages":
+     {
+         "german": "mothertongue",
+         "english": "business-level"
+     },
+     "jobpreferences":
+     {
+         "preference1": "CEO",
+         "preference2": "CIO",
+         "preference3": "cleaning lady"
+     },
+     "Notes": "Please give me a job :)"
+ }

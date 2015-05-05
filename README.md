@@ -11,6 +11,16 @@ Install [Maven](http://maven.apache.org/download.cgi) on your system and check i
 mvn --version
 ```
 
+### Optional MongoDB installation to test the hosted DB
+Install [MongoDB](http://docs.mongodb.org/v2.6/) locally to try out some requests. You can connect over the shell via
+```shell
+mongo ds031802.mongolab.com:31802/hrdep -u <dbuser> -p <dbpassword>
+```
+You can also connect using a driver via the standard URI:
+```
+mongodb://<dbuser>:<dbpassword>@ds031802.mongolab.com:31802/hrde
+```
+
 ## Build and run with Maven
 
 To build this project use
