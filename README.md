@@ -18,7 +18,7 @@ mongo ds031802.mongolab.com:31802/hrdep -u <dbuser> -p <dbpassword>
 ```
 You can also connect using a driver via the standard URI:
 ```
-mongodb://<dbuser>:<dbpassword>@ds031802.mongolab.com:31802/hrde
+mongodb://<dbuser>:<dbpassword>@ds031802.mongolab.com:31802/hrdep
 ```
 
 ## Build and run with Maven
@@ -30,7 +30,7 @@ To build this project use
 
 To run this project with Maven use
   ```shell
-  mvn camel:run
+  mvn compile exec:java
   ```
 ## Examples
 Good simple example: https://github.com/vrto/apache-camel-invoices  
