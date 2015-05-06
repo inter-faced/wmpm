@@ -1,6 +1,9 @@
 package at.tuwien.wmpm15.group8;
 
-import org.apache.camel.main.Main;
+import at.tuwien.wmpm15.group8.routebuilder.AnExampleRoute;
+import at.tuwien.wmpm15.group8.routebuilder.TwitterRoute;
+import org.apache.camel.CamelContext;
+import org.apache.camel.impl.DefaultCamelContext;
 
 /**
  * A Camel Application
@@ -11,10 +14,13 @@ public class MainApp {
      * A main() so we can easily run these routing rules in our IDE
      */
     public static void main(String... args) throws Exception {
-        Main main = new Main();
-        main.enableHangupSupport();
-        main.addRouteBuilder(new MyRouteBuilder());
-        main.run(args);
+        CamelContext context = new DefaultCamelContext();
+
+        //add all the Routes here
+        context.addRoutes(new AnExampleRoute());
+        context.addRoutes(new TwitterRoute());
+
+        context.start();
     }
 
 }

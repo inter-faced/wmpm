@@ -1,38 +1,17 @@
-package at.tuwien.wmpm15.group8;
-
+package at.tuwien.wmpm15.group8.routebuilder;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.processor.idempotent.MemoryIdempotentRepository;
-
-import org.apache.camel.component.twitter.*;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.twitter.TwitterComponent;
-import twitter4j.*;
+import twitter4j.Status;
 
 /**
- * A Camel Java DSL Router
+ * Created by Interfaced on 06.05.15.
  */
-public class MyRouteBuilder extends RouteBuilder {
+public class TwitterRoute extends RouteBuilder {
 
-    /**
-     * Let's configure the Camel routing rules using Java code...
-     */
     public void configure() {
-
-        // here is a sample which processes the input files
-        // (leaving them in place - see the 'noop' flag)
-        // then performs content based routing on the message using XPath
-        from("file:src/data?noop=true")
-            .choice()
-                .when(xpath("/person/city = 'London'"))
-                    .log("UK message")
-                    .to("file:target/messages/uk")
-                .otherwise()
-                    .log("Other message")
-                    .to("file:target/messages/others");
 
         // has to be changed to our twitter account, this is just provided from camel for testing
         String consumerKey = "NMqaca1bzXsOcZhP2XlwA";
@@ -61,8 +40,7 @@ public class MyRouteBuilder extends RouteBuilder {
                     }
                 })
                 .transform(body().convertToString())
-                //.log(">> Twitter Poll : ${body}")
+                        //.log(">> Twitter Poll : ${body}")
                 .to("file:target/messages/twitter");
     }
-
 }
