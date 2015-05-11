@@ -11,7 +11,7 @@ public class MongoDbRoute  extends RouteBuilder {
 
 
 		PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
-		pc.setLocation("classpath:ftp.properties");//classpath:mongodb.properties
+		pc.setLocation("classpath:credentials.properties");//classpath:mongodb.properties
 
 		from("direct:findAll")
 		.to("mongodb:myDb?database={{mongodb.dbName}}&collection={{mongodb.ApplicantCollectionName}}&operation=findAll")

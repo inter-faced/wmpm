@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
@@ -46,7 +45,7 @@ public class MongoDbBean  {
 
 		try {
 
-			String filename = "ftp.properties";
+			String filename = "credentials.properties";
 			input = MongoDbBean.class.getClassLoader().getResourceAsStream(filename);
 			if(input==null){
 				System.out.println("Sorry, unable to find " + filename);

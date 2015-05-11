@@ -7,12 +7,12 @@ public class FtpRoute extends RouteBuilder {
 
     public void configure() throws Exception {
 
-        // configure properties component for ftp.properties
+        // configure properties component for credentials.properties
         PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
-        pc.setLocation("classpath:ftp.properties");
+        pc.setLocation("classpath:credentials.properties");
 
         /*
-        * Upload files from src/data/attachments to FTP server specified in ftp.properties
+        * Upload files from src/data/attachments to FTP server specified in credentials.properties
         * ?noop just for testing
         */
             from("file:src/data/attachments?noop=true")
