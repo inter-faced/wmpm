@@ -46,7 +46,7 @@ public class MongoDbBean  {
 
 		try {
 
-			String filename = "mongodb.properties";
+			String filename = "ftp.properties";
 			input = MongoDbBean.class.getClassLoader().getResourceAsStream(filename);
 			if(input==null){
 				System.out.println("Sorry, unable to find " + filename);
