@@ -1,38 +1,17 @@
-package at.tuwien.wmpm15.group8;
+package at.tuwien.wmpm15.group8.routebuilder;
 
 
 import org.apache.camel.Exchange;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.processor.idempotent.MemoryIdempotentRepository;
-
-import org.apache.camel.component.twitter.*;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.twitter.TwitterComponent;
-import twitter4j.*;
+import twitter4j.Status;
 
-/**
- * A Camel Java DSL Router
- */
-public class MyRouteBuilder extends RouteBuilder {
+public class TwitterRoute extends RouteBuilder {
 
-    /**
-     * Let's configure the Camel routing rules using Java code...
-     */
+    static int count = 0;
+
     public void configure() {
-
-        // here is a sample which processes the input files
-        // (leaving them in place - see the 'noop' flag)
-        // then performs content based routing on the message using XPath
-        from("file:src/data?noop=true")
-            .choice()
-                .when(xpath("/person/city = 'London'"))
-                    .log("UK message")
-                    .to("file:target/messages/uk")
-                .otherwise()
-                    .log("Other message")
-                    .to("file:target/messages/others");
 
         // has to be changed to our twitter account, this is just provided from camel for testing
         String consumerKey = "NMqaca1bzXsOcZhP2XlwA";
@@ -47,22 +26,26 @@ public class MyRouteBuilder extends RouteBuilder {
         tc.setConsumerKey(consumerKey);
         tc.setConsumerSecret(consumerSecret);
 
-        String user = "derStandardat";
-
+        String user = "sebastiankurz";
         // poll twitter search for new tweets
         fromF("twitter://timeline/user?type=direct&user=" + user)
-
                 .process(new Processor() { // set message header ID
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         Status msg = exchange.getIn().getBody(Status.class);
+                        /*
                         System.out.println("--------<<<<Sysout>>>------ Message Text: " + msg.getText());
                         System.out.println("--------<<<<Sysout>>>------ Retweet count: " + msg.getRetweetCount());
+                        System.out.println("--------<<<<Sysout>>>------ Retweet user: " + msg.getUser().getFavouritesCount());
+                        count++;
+                        System.out.println("--------<<<<Sysout>>>------ Count: " + count);
+                        */
                     }
                 })
                 .transform(body().convertToString())
-                //.log(">> Twitter Poll : ${body}")
+                        //.log(">> Twitter Poll : ${body}")
                 .to("file:target/messages/twitter");
-    }
 
+
+    }
 }
