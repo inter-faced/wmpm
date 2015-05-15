@@ -1,10 +1,16 @@
 package at.tuwien.wmpm15.group8.routebuilder;
 
+import java.util.HashMap;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
+import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class MongoDbRoute  extends RouteBuilder {
 	public void configure() {
@@ -24,18 +30,31 @@ public class MongoDbRoute  extends RouteBuilder {
 		.process(new Processor() { 
 			@Override
 			public void process(Exchange exchange) throws Exception {
-				Object msg = exchange.getIn().getBody();
+				Message msg=exchange.getIn();
+				Object msgBody =exchange.getIn().getBody();
 
-				System.out.println(">> Applicant Object: " + msg);
+				System.out.println(">> Applicant Object: " + msgBody);
+				
+				JSONParser jsonParser = new JSONParser();
+				JSONObject jsonObject = (JSONObject) jsonParser.parse(msgBody.toString());
+				JSONObject idObj = (JSONObject) jsonObject.get("_id");
+				
+				String id =   idObj.get("$oid").toString();
+				System.out.println(">> Applicant ID: "  + id);
+				
+				msg.setHeader("id", id);
+				
+				
+				
 			}
 		})
 		.transform(body().convertToString())
 
-		.to("jms:queue:test.queue");
+		.to("jms:queue:applicant.queue");
 
 
 		// just for testing
-		from("jms:queue:test.queue")
+		from("jms:queue:applicant.queue")
 		.to ("file:target/messages/mongo");
 
 	}
