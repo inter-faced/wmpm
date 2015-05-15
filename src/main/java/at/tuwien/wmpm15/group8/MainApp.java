@@ -1,18 +1,18 @@
 package at.tuwien.wmpm15.group8;
 
-import javax.jms.ConnectionFactory;
-
+import at.tuwien.wmpm15.group8.beans.MongoDbBean;
 import at.tuwien.wmpm15.group8.routebuilder.FtpRoute;
 import at.tuwien.wmpm15.group8.routebuilder.MongoDbRoute;
+import at.tuwien.wmpm15.group8.routebuilder.MulticastRoute;
 import at.tuwien.wmpm15.group8.routebuilder.TwitterRoute;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
-import  at.tuwien.wmpm15.group8.beans.MongoDbBean;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.util.jndi.JndiContext;
+
+import javax.jms.ConnectionFactory;
 
 /**
  * A Camel Application
@@ -27,7 +27,7 @@ public class MainApp {
     	
     	JndiContext jndiContext = new JndiContext();
     	MongoDbBean mgBean=new MongoDbBean();    	
-		jndiContext.bind("myDb",mgBean.getConnection());
+		jndiContext.bind("myDb", mgBean.getConnection());
     	    	
         CamelContext context = new DefaultCamelContext(jndiContext);
                
@@ -37,9 +37,11 @@ public class MainApp {
     	
 
         //add all the Routes here
+        context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
+
 
         context.start();
 

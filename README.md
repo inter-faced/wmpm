@@ -1,4 +1,4 @@
-# Camel Router Spring Project for Workflow Modeling and Process Management 2015S
+# Camel Project for Workflow Modeling and Process Management 2015S
 ## Project Info
 
 Groupnumber: 08  

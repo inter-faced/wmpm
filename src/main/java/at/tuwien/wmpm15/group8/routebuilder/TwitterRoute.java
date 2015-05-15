@@ -18,9 +18,11 @@ public class TwitterRoute extends RouteBuilder {
         PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
         pc.setLocation("classpath:credentials.properties");
 
-        final String user = "sebastiankurz";
+        final String user = "IngridThurnher";
 
 
+        from("jms:queue:twitter.queue")
+            .to("twitter://timeline/user?count=3&user=" + user + "&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}");
 
         // poll twitter search for new tweets
         fromF("twitter://timeline/user?count=3&user=" + user + "&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}")
@@ -36,8 +38,8 @@ public class TwitterRoute extends RouteBuilder {
                             obj.put("name", user);
                             obj.put("favouritesCount", status.getUser().getFavouritesCount());
                             obj.put("followersCount", status.getUser().getFollowersCount());
-                            obj.put("tweetCount", status.getUser().getStatusesCount());
-
+                            //obj.put("tweetCount", status.getUser().getStatusesCount());
+                            System.out.println("--------" + obj.toString());
                             msg.setBody(obj.toString());
                             msg.setHeader("tostore", true);
                         }
