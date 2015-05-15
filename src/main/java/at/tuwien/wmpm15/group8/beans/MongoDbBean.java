@@ -1,14 +1,14 @@
 package at.tuwien.wmpm15.group8.beans;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Properties;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
 
 public class MongoDbBean  {
 
@@ -18,11 +18,11 @@ public class MongoDbBean  {
 	public MongoDbBean()
 	{
 		Properties prop= getMongoDbProperty();
-		MongoCredential credential = MongoCredential.createMongoCRCredential(prop.getProperty("mongodb.userName"), prop.getProperty("mongodb.dbName"), prop.getProperty("mongodb.password").toCharArray());
+		MongoCredential credential = MongoCredential.createMongoCRCredential(prop.getProperty("mongodb.userName"), prop.getProperty("mongodb.webdbName"), prop.getProperty("mongodb.password").toCharArray());
 		
 		
 			try {
-				mongoClient = new MongoClient(new ServerAddress(prop.getProperty("mongodb.url"),Integer.parseInt(prop.getProperty("mongodb.port"))), Arrays.asList(credential));
+				mongoClient = new MongoClient(new ServerAddress(prop.getProperty("mongodb.webdburl"),Integer.parseInt(prop.getProperty("mongodb.webdbport"))), Arrays.asList(credential));
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
@@ -55,7 +55,7 @@ public class MongoDbBean  {
 			prop.load(input);
 
 
-			System.out.println("dbName: "+ prop.getProperty("mongodb.dbName"));
+			System.out.println("dbName: "+ prop.getProperty("mongodb.webdbName"));
 			System.out.println("userName: "+prop.getProperty("mongodb.userName"));
 			System.out.println("password: "+prop.getProperty("mongodb.password"));
 

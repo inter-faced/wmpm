@@ -5,21 +5,33 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class MulticastRoute extends RouteBuilder {
 
     public void configure() {
 
-        from("jms:queue:test.queue")
+        from("jms:queue:applicant.queue")
                 .process(new Processor() { // set message header ID
                     @Override
                     public void process(Exchange exchange) throws Exception {
 
                         Message msg = exchange.getIn();
-                        String body = exchange.getIn().getBody(String.class);
+                        String msgbody = exchange.getIn().getBody(String.class);
+
+                        JSONParser jsonParser = new JSONParser();
+                        JSONObject jsonObject = (JSONObject) jsonParser.parse(msgbody.toString());
+                        JSONArray socialnetworks = (JSONArray) jsonObject.get("socialnetworks");
 
 
-                        System.out.println(body);
+                        //JSONObject twitter = (JSONObject) socialnetworks.get(1);
+                        //System.out.println("--------" + msgbody.toString());
+                        //String nickname =   twitter.get("nickname").toString();
+                        //System.out.println(">> Applicant Twitter nickname: "  + nickname);
+                        //msg.setHeader("id", id);
+
 
                     }
                 })
