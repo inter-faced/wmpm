@@ -2,10 +2,7 @@ package at.tuwien.wmpm15.group8;
 
 import javax.jms.ConnectionFactory;
 
-import at.tuwien.wmpm15.group8.routebuilder.AnExampleRoute;
-import at.tuwien.wmpm15.group8.routebuilder.FtpRoute;
-import at.tuwien.wmpm15.group8.routebuilder.MongoDbRoute;
-import at.tuwien.wmpm15.group8.routebuilder.TwitterRoute;
+import at.tuwien.wmpm15.group8.routebuilder.*;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
@@ -28,7 +25,7 @@ public class MainApp {
     	
     	JndiContext jndiContext = new JndiContext();
     	MongoDbBean mgBean=new MongoDbBean();    	
-		jndiContext.bind("myDb",mgBean.getConnection());
+		jndiContext.bind("myDb", mgBean.getConnection());
     	    	
         CamelContext context = new DefaultCamelContext(jndiContext);
                
@@ -45,6 +42,7 @@ public class MainApp {
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
+        context.addRoutes(new SendToDepartment());
         
   
         context.start();
