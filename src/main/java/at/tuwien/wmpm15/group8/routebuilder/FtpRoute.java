@@ -14,17 +14,19 @@ public class FtpRoute extends RouteBuilder {
         /*
         * Upload files from src/data/attachments to FTP server specified in credentials.properties
         * ?noop just for testing
-        */
+
             from("file:src/data/attachments?noop=true")
                     .log("Uploading file ${file:name}")
                     .to("{{ftp.serverUL}}")
                     .log("Uploaded file ${file:name} complete.");
 
+        */
+
         /*
         * Download files from FTP server and move them to hidden directory .done
         */
             from("{{ftp.serverDL}}")
-                    .to("file:target/attachments")
+                    .to("file:target/messages/attachments")
                     .log("Downloaded file ${file:name} complete.");
     }
 

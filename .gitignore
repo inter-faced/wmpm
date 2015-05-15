@@ -5,3 +5,7 @@
 ## Directory-based project format:
 .idea/
 target/
+test/
+
+## Properties file
+src/main/resources/credentials.properties

@@ -2,7 +2,6 @@ package at.tuwien.wmpm15.group8;
 
 import javax.jms.ConnectionFactory;
 
-import at.tuwien.wmpm15.group8.routebuilder.AnExampleRoute;
 import at.tuwien.wmpm15.group8.routebuilder.FtpRoute;
 import at.tuwien.wmpm15.group8.routebuilder.MongoDbRoute;
 import at.tuwien.wmpm15.group8.routebuilder.TwitterRoute;
@@ -36,17 +35,12 @@ public class MainApp {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
         context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
     	
-    	
-    	
-        
 
         //add all the Routes here
-        context.addRoutes(new AnExampleRoute());
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
-        
-  
+
         context.start();
 
 

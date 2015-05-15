@@ -36,7 +36,7 @@ public class MongoDbRoute  extends RouteBuilder {
 
 		// just for testing
 		from("jms:queue:test.queue")
-		.to ("file:test/mongo2");
+		.to ("file:target/messages/mongo");
 
 	}
 
