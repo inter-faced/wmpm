@@ -6,7 +6,7 @@ import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import twitter4j.Status;
 
 public class TwitterRoute extends RouteBuilder {
