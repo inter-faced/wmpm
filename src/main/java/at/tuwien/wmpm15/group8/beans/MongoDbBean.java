@@ -1,13 +1,13 @@
 package at.tuwien.wmpm15.group8.beans;
 
 
-import java.util.Arrays;
-import java.util.Properties;
 import at.tuwien.wmpm15.group8.utils.CredentialsReader;
-
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+
+import java.util.Arrays;
+import java.util.Properties;
 
 public class MongoDbBean  {
 

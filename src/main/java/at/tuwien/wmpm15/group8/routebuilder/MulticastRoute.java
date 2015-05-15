@@ -37,7 +37,7 @@ public class MulticastRoute extends RouteBuilder {
                 })
                 .multicast()
                 .parallelProcessing()
-                .log("-->>testqueue: ${body}")
+                //.log("-->>testqueue: ${body}")
                 .to("jms:queue:twitter.queue");
     }
 }

@@ -30,14 +30,14 @@ public class MongoDbRoute  extends RouteBuilder {
 				Message msg=exchange.getIn();
 				Object msgBody =exchange.getIn().getBody();
 
-				System.out.println(">> Applicant Object: " + msgBody);
+				//System.out.println(">> Applicant Object: " + msgBody);
 
 				JSONParser jsonParser = new JSONParser();
 				JSONObject jsonObject = (JSONObject) jsonParser.parse(msgBody.toString());
 				JSONObject idObj = (JSONObject) jsonObject.get("_id");
 
 				String id =   idObj.get("$oid").toString();
-				System.out.println(">> Applicant ID: "  + id);
+				//System.out.println(">> Applicant ID: "  + id);
 
 				msg.setHeader("id", id);
 
