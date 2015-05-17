@@ -1,10 +1,10 @@
 package at.tuwien.wmpm15.group8.utils;
 
+import at.tuwien.wmpm15.group8.beans.MongoDbBean;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import at.tuwien.wmpm15.group8.beans.MongoDbBean;
 
 public class CredentialsReader {
 	
@@ -26,7 +26,7 @@ public class CredentialsReader {
 			prop.load(input);
 
 
-			System.out.println("dbName: "+ prop.getProperty("mongodb.dbName"));
+			System.out.println("dbName: "+ prop.getProperty("mongodb.webdbName"));
 			System.out.println("userName: "+prop.getProperty("mongodb.userName"));
 			System.out.println("password: "+prop.getProperty("mongodb.password"));
 

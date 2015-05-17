@@ -39,7 +39,7 @@
     "type": "private",
     "number": "my@privatemail.com"
   }],
-  "socialnetworks": [{
+  "socialnetworks": {
     "twitter": {
       "nickname": "David_Alaba"
     },
@@ -49,7 +49,7 @@
     "linkedin": {
       "directlink": "https://at.linkedin.com/in/thomasbiasion"
     }
-  }],
+  },
   "education": [{
     "uni_name": "TU Vienna",
     "diploma": "MSc",

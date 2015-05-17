@@ -10,8 +10,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 public class MongoDbRoute  extends RouteBuilder {
-	public void configure() {
 
+	public void configure() {
 
 		PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
 		pc.setLocation("classpath:credentials.properties");//classpath:mongodb.properties
@@ -47,12 +47,14 @@ public class MongoDbRoute  extends RouteBuilder {
 		})
 		.transform(body().convertToString())
 
-		.to("jms:queue:applicant.queue");
+		.to("direct:multicast");
 
-
+		/*
 		// just for testing
-		from("jms:queue:applicant.queue")
+		from("jms:queue:multicast.queue")
 		.to ("file:target/messages/mongo");
+		 */
+
 
 	}
 
