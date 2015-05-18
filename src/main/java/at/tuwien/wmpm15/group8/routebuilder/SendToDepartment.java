@@ -25,8 +25,6 @@ public class SendToDepartment extends RouteBuilder {
         /*CamelContext context = new DefaultCamelContext();
 
 
-        // create an exchange with a normal body and attachment to be produced as email
-        Endpoint endpoint = context.getEndpoint("smtps://hanswurst_peterpan@gmx.at?password=passwurst");
 
         // create the exchange with the mail message that is multipart with a file and a Hello World text/plain message.
         Exchange exchange = endpoint.createExchange();
