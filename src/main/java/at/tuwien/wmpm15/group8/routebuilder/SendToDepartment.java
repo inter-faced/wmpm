@@ -22,7 +22,7 @@ public class SendToDepartment extends RouteBuilder {
 
 
         // create an exchange with a normal body and attachment to be produced as email
-        Endpoint endpoint = getContext().getEndpoint("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to={{smtps.to}}&debugMode=true");
+        Endpoint endpoint = getContext().getEndpoint("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to={{smtps.to}}&debugMode=false");
         // create the exchange with the mail message that is multipart with a file and a Hello World text/plain message.
         Exchange exchange = endpoint.createExchange();
         Message in = exchange.getIn();
