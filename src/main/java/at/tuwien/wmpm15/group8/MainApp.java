@@ -49,7 +49,7 @@ public class MainApp {
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
-      //  context.addRoutes(new LinkedinRoute());
+        context.addRoutes(new LinkedinRoute());
         context.addRoutes(new ContentEnricherRoute());
         
 
