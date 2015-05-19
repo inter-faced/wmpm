@@ -30,15 +30,15 @@ public class ProcessCriteria {
 
 		Properties prop= CredentialsReader.read();
 		
-		MongoCredential credential = MongoCredential.createMongoCRCredential(prop.getProperty("mongodb.userName"), prop.getProperty("mongodb.testdbName"), prop.getProperty("mongodb.password").toCharArray());
+		MongoCredential credential = MongoCredential.createMongoCRCredential(prop.getProperty("mongodb.userName"), prop.getProperty("mongodb.hrdepdbName"), prop.getProperty("mongodb.password").toCharArray());
 
-		MongoClient mongoClient = new MongoClient(new ServerAddress(prop.getProperty("mongodb.testurl"),Integer.parseInt(prop.getProperty("mongodb.testport"))), Arrays.asList(credential));
+		MongoClient mongoClient = new MongoClient(new ServerAddress(prop.getProperty("mongodb.hrdepurl"),Integer.parseInt(prop.getProperty("mongodb.hrdepport"))), Arrays.asList(credential));
 
 		 
 
-		MongoDatabase db= mongoClient.getDatabase(prop.getProperty("mongodb.testdbName"));
+		MongoDatabase db= mongoClient.getDatabase(prop.getProperty("mongodb.hrdepdbName"));
 		
-		MongoCollection <Document> collectionNames = db.getCollection(prop.getProperty("mongodb.testCriteriaCollection"));
+		MongoCollection <Document> collectionNames = db.getCollection(prop.getProperty("mongodb.hrdepCriteriaCollection"));
 
 
 		Document res= collectionNames.find().first();
