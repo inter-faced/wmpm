@@ -9,6 +9,8 @@ import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import at.tuwien.wmpm15.group8.beans.ProcessCriteria;
+
 public class MongoDbRoute  extends RouteBuilder {
 
 	public void configure() {
@@ -46,8 +48,16 @@ public class MongoDbRoute  extends RouteBuilder {
 			}
 		})
 		.transform(body().convertToString())
+		.bean(ProcessCriteria.class)
+		.choice()
+			.when(header("status").isEqualTo("qualified"))
+				//.to("jms:queue:applicant.queue")
+				.to("direct:multicast")
+				.log("Applicant qualified!")
 
-		.to("direct:multicast");
+			.otherwise()
+				.to("jms:queue:email.queue")
+				.log("Applicant not qualified!");
 
 		/*
 		// just for testing
