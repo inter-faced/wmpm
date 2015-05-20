@@ -37,15 +37,22 @@ public class MainApp {
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
+        context.addRoutes(new ContentEnricherRoute());
         context.addRoutes(new MongoDbRoute());
-        context.addRoutes(new SendToDepartment());
+        //context.addRoutes(new SendToDepartment());
 
 
+        context.addRoutes(new AggregatorRoute());
         context.start();
 
 
         ProducerTemplate template = context.createProducerTemplate(); // there should be a producer, otherwise route seems not working!
-        Object result =  template.requestBody("direct:findAll", "{}");
+      //  Object result =  template.requestBody("direct:findAll", "{}");
+        
+        /*template.sendBodyAndHeader("direct:start", "A", "id", 1);
+        template.sendBodyAndHeader("direct:start", "B", "id", 1);
+        template.sendBodyAndHeader("direct:start", "F", "id", 2);
+        template.sendBodyAndHeader("direct:start", "C", "id", 1);*/
 
     }
 

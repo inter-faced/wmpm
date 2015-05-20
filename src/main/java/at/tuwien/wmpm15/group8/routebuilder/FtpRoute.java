@@ -22,13 +22,23 @@ public class FtpRoute extends RouteBuilder {
 
         */
 
-        /*
-        * Download files from FTP server and move them to hidden directory .done
-        */
+        
+        // Download files from FTP server and move them to hidden directory .done
+        
             from("{{ftp.serverDL}}")
                     .to("file:target/messages/attachments")
                     .log("Downloaded file ${file:name} complete.");
-    }
+        
+        
+       /* 
+         * Download files from FTP server 
+         
+             from("{{ftp.serverDL}}")
+		             .log("-->>>Body from FTP: " + "${body}")
+                     .to("jms:queue:incomingDocuments")
+                     .log("-->>>Body in qu FTP: " + "${body}");
+                     //.log("Downloaded file ${file:name} complete.")
+*/    }
 
 
 }
