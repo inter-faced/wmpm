@@ -4,6 +4,7 @@ import at.tuwien.wmpm15.group8.beans.MongoDbBean;
 import at.tuwien.wmpm15.group8.routebuilder.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
@@ -27,6 +28,7 @@ public class MainApp {
         jndiContext.bind("myDb", mgBean.getConnection());
 
         CamelContext context = new DefaultCamelContext(jndiContext);
+        context.getProperties().put(Exchange.LOG_DEBUG_BODY_MAX_CHARS, "3000");
 
         // Set up the ActiveMQ JMS Components
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
