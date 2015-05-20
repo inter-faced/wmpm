@@ -59,13 +59,18 @@ public class TwitterRoute extends RouteBuilder {
                             obj.put("followersCount", status.getUser().getFollowersCount());
                             obj.put("tweetCount", status.getUser().getStatusesCount());
                             msg.setBody(obj.toString());
-                            msg.setHeader("tostore", true);
+                            
+               //             msg.setHeader("tostore", true);
                         }
                     }
                 })
-                .filter(header("tostore").isEqualTo(true))
+                .log("-->>Twitter Header: ${header.id}")
+             //   .filter(header("tostore").isEqualTo(true))
                 .log("-->>Twitter Filtered Body: ${body}")
                 .transform(body().convertToString())
-                .to("file:target/messages/twitter");
+                //.to("file:target/messages/twitter");
+                .to("direct:startAggregator");
+        
+        
     }
 }

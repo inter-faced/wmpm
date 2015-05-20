@@ -14,14 +14,24 @@ public class AggregatorRoute extends RouteBuilder{
 		//AggregationRepository myRepo = new
 			//	HawtDBAggregationRepository("myrepo", "src/data/myrepo.dat");
 		
-		from("direct:start")
+		/*from("direct:startAggregator")
 		.log("Sending ${body} with correlation key ${header.id}")
-		.aggregate(header("id"), new MyAggregationStrategy())
-		.completionSize(3)
+		//.aggregate(header("id"), new MyAggregationStrategy())
+		.aggregate(new MyAggregationStrategy()).header("id")
+		.completionSize(2)
 		//.aggregationRepository(myRepo)
 		.log("Sending out ${body}")
-		.to("mock:result");
+		.to("file:target/messages/intermediateProfile");*/
 		
+		
+		from("direct:startAggregator")
+		.log("Sending ${body} with correlation key ${header.id}")
+		.aggregate(header("id"), new MyAggregationStrategy())
+		//.aggregate(header("id"))//.to("mock:result")
+		.completionSize(2)
+		//.aggregationRepository(myRepo)
+		.log("Sending out ${body}")
+		.to("file:target/messages/intermediateProfile");
 	}
 
 }
