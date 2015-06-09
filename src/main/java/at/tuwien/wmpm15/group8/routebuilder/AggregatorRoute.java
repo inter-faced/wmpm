@@ -23,7 +23,7 @@ public class AggregatorRoute extends RouteBuilder{
 		.log("Sending out ${body}")
 		.to("file:target/messages/intermediateProfile");*/
 		
-		
+		//aggregate message from db with twitter message
 		from("direct:startAggregator")
 		.log("Sending ${body} with correlation key ${header.id}")
 		.aggregate(header("id"), new MyAggregationStrategy())
