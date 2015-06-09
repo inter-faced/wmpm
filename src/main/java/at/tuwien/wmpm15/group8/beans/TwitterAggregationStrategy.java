@@ -27,6 +27,7 @@ public class TwitterAggregationStrategy implements AggregationStrategy {
             Status status = newExchange.getIn().getBody(Status.class);
 
             JSONObject obj = new JSONObject();
+
             obj.put("favouritesCount", status.getUser().getFavouritesCount());
             obj.put("followersCount", status.getUser().getFollowersCount());
             obj.put("tweetCount", status.getUser().getStatusesCount());

@@ -7,11 +7,8 @@ import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class TwitterRoute extends RouteBuilder {
-
-    static int count = 0;
 
     public void configure() {
 
@@ -25,10 +22,7 @@ public class TwitterRoute extends RouteBuilder {
 
                         Message msg = exchange.getIn();
 
-                        String msgbody = exchange.getIn().getBody(String.class);
-
-                        JSONParser jsonParser = new JSONParser();
-                        JSONObject jsonObject = (JSONObject) jsonParser.parse(msgbody.toString());
+                        JSONObject jsonObject = exchange.getIn().getBody(JSONObject.class);
 
                         JSONObject socialnetworks = (JSONObject) jsonObject.get("socialnetworks");
 
@@ -45,10 +39,10 @@ public class TwitterRoute extends RouteBuilder {
                     }
                 })
                 .log("-->>Twitter Filtered Body: ${body}")
-                .transform(body().convertToString())
                 .to("direct:eventFilePooler");
 
         from("direct:twitterresult")
+                .transform(body().convertToString())
                 .to("file:target/messages/twitter");
     }
 }

@@ -32,6 +32,7 @@ public class MongoDbRoute  extends RouteBuilder {
 				Message msg=exchange.getIn();
 				Object msgBody =exchange.getIn().getBody();
 
+
 				//System.out.println(">> Applicant Object: " + msgBody);
 
 				JSONParser jsonParser = new JSONParser();
@@ -40,22 +41,20 @@ public class MongoDbRoute  extends RouteBuilder {
 
 				String id =   idObj.get("$oid").toString();
 				//System.out.println(">> Applicant ID: "  + id);
-
+				msg.setBody(jsonObject);
 				msg.setHeader("id", id);
-
-
 
 			}
 		})
-		.transform(body().convertToString())
+		//.transform(body().convertToString())
 		.bean(ProcessCriteria.class)
-		.choice()
-			.when(header("status").isEqualTo("qualified"))
+				.choice()
+				.when(header("status").isEqualTo("qualified"))
 				//.to("jms:queue:applicant.queue")
 				.to("direct:multicast")
 				.log("Applicant qualified!")
 
-			.otherwise()
+				.otherwise()
 				.to("jms:queue:email.queue")
 				.log("Applicant not qualified!");
 

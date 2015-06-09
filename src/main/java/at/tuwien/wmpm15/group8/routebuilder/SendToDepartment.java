@@ -1,10 +1,11 @@
 package at.tuwien.wmpm15.group8.routebuilder;
 
-import org.apache.camel.*;
+import org.apache.camel.Exchange;
+import org.apache.camel.Message;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -24,10 +25,8 @@ public class SendToDepartment extends RouteBuilder {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         Message msg = exchange.getIn();
-                        Object msgBody = exchange.getIn().getBody();
 
-                        JSONParser jsonParser = new JSONParser();
-                        JSONObject jsonObject = (JSONObject) jsonParser.parse(msgBody.toString());
+                        JSONObject jsonObject = exchange.getIn().getBody(JSONObject.class);
                         JSONObject idObj = (JSONObject) jsonObject.get("_id");
 
                         String firstName = (String) jsonObject.get("firstName");
@@ -37,9 +36,6 @@ public class SendToDepartment extends RouteBuilder {
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName);
 
                         msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
-
-
-
 
                     }
                 })
