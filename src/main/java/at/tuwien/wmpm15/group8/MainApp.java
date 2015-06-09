@@ -35,7 +35,6 @@ public class MainApp {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
         context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 
-
         //add all the Routes here
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
