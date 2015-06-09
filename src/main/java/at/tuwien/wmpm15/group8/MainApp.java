@@ -29,6 +29,7 @@ public class MainApp {
 
         CamelContext context = new DefaultCamelContext(jndiContext);
         context.getProperties().put(Exchange.LOG_DEBUG_BODY_MAX_CHARS, "3000");
+        context.getShutdownStrategy().setTimeout(5); // for twitter messages that should not be processed
 
         // Set up the ActiveMQ JMS Components
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");
@@ -42,9 +43,7 @@ public class MainApp {
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
 
-
         context.start();
-
 
         ProducerTemplate template = context.createProducerTemplate(); // there should be a producer, otherwise route seems not working!
         Object result =  template.requestBody("direct:findAll", "{}");

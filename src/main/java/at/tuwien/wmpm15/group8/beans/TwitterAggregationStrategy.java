@@ -5,8 +5,6 @@ import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.json.simple.JSONObject;
 import twitter4j.Status;
 
-
-
 public class TwitterAggregationStrategy implements AggregationStrategy {
 
         @Override
@@ -20,23 +18,21 @@ public class TwitterAggregationStrategy implements AggregationStrategy {
                 return oldExchange;
             }
 
-
-            String oldBody = oldExchange.getIn().getBody(String.class);
-
+            System.out.println("------new exchange is null: " + oldExchange.toString());
 
             Status status = newExchange.getIn().getBody(Status.class);
+            JSONObject oldBody = oldExchange.getIn().getBody(JSONObject.class);
 
-            JSONObject obj = new JSONObject();
+            // enriching the oldBody with twitter data
+            JSONObject socialnetworks = (JSONObject) oldBody.get("socialnetworks");
+            //TODO exception handling if no twitter data there
+            JSONObject twitter = (JSONObject) socialnetworks.get("twitter");
+            twitter.put("favouritesCount", status.getUser().getFavouritesCount());
+            twitter.put("followersCount", status.getUser().getFollowersCount());
+            twitter.put("tweetCount", status.getUser().getStatusesCount());
 
-            obj.put("favouritesCount", status.getUser().getFavouritesCount());
-            obj.put("followersCount", status.getUser().getFollowersCount());
-            obj.put("tweetCount", status.getUser().getStatusesCount());
-
-            String newBody = obj.toString();
-
-
-            String body = oldBody + newBody;
-            oldExchange.getIn().setBody(body);
+            // oldBody is now enriched with the twitter data
+            oldExchange.getIn().setBody(oldBody);
             return oldExchange;
         }
     }
