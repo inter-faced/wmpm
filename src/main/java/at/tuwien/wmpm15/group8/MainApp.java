@@ -41,6 +41,7 @@ public class MainApp {
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
+        context.addRoutes(new DepartmentAnswerRoute());
 
         context.start();
 
