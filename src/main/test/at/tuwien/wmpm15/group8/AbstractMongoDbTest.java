@@ -56,13 +56,13 @@ public abstract class AbstractMongoDbTest extends CamelTestSupport {
     public static void checkMongoRunning() throws IOException {
     	System.out.println("Init test ...");
     	 properties= CredentialsReader.read();
-		MongoCredential credential = MongoCredential.createMongoCRCredential(properties.getProperty("mongodb.userName"), properties.getProperty("mongodb.webdbName"), properties.getProperty("mongodb.password").toCharArray());
-		mongoClient = new MongoClient(new ServerAddress(properties.getProperty("mongodb.webdburl"),Integer.parseInt(properties.getProperty("mongodb.webdbport"))), Arrays.asList(credential));
+		MongoCredential credential = MongoCredential.createMongoCRCredential(properties.getProperty("mongodb.userName"), properties.getProperty("mongodb.testdbName"), properties.getProperty("mongodb.password").toCharArray());
+		mongoClient = new MongoClient(new ServerAddress(properties.getProperty("mongodb.testurl"),Integer.parseInt(properties.getProperty("mongodb.testport"))), Arrays.asList(credential));
 	
         // ping Mongo and populate db and collection
         try {
 
-            dbName = properties.getProperty("mongodb.webdbName");
+            dbName = properties.getProperty("mongodb.testdbName");
 
             db=mongoClient.getDB(dbName);
             
@@ -78,7 +78,7 @@ public abstract class AbstractMongoDbTest extends CamelTestSupport {
         // Refresh the test collection - drop it and recreate it. We don't do this for the database because MongoDB would create large
         // store files each time
         try{
-    	testCollectionName = properties.getProperty("mongodb.cappedAppCollection");
+    	testCollectionName = properties.getProperty("mongodb.testCappedAppCollection");
         System.out.println("testCollectionName "+testCollectionName);
         testCollection = db.getCollection(testCollectionName);
         testCollection.drop();

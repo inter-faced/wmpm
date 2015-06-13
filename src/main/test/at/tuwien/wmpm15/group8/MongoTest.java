@@ -78,7 +78,7 @@ public class MongoTest extends AbstractMongoDbTest {
     public void initTestCase() {
        super.initTestCase();
         // drop the capped collection and let each test create what they need
-        cappedTestCollectionName = properties.getProperty("mongodb.cappedAppCollection");
+        cappedTestCollectionName = properties.getProperty("mongodb.testCappedAppCollection");
         cappedTestCollection = db.getCollection(cappedTestCollectionName);
 
         cappedTestCollection.drop();
@@ -91,7 +91,7 @@ public class MongoTest extends AbstractMongoDbTest {
     protected CamelContext createCamelContext() throws Exception {
         
     	 JndiContext jndiContext = new JndiContext();
-         MongoDbBean mgBean=new MongoDbBean();
+    	 TestMongoDbBean mgBean=new TestMongoDbBean();
          jndiContext.bind("myDb", mgBean.getConnection());
 
          CamelContext context = new DefaultCamelContext(jndiContext);
@@ -112,7 +112,7 @@ public class MongoTest extends AbstractMongoDbTest {
         		pc.setLocation("classpath:credentials.properties");//classpath:mongodb.properties
 
                 
-                from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.cappedAppCollection}}&tailTrackIncreasingField=increasing")
+                from("mongodb:myDb?database={{mongodb.testdbName}}&collection={{mongodb.testCappedAppCollection}}&tailTrackIncreasingField=increasing")
                     .id("tailableCursorConsumer1")
                     .autoStartup(false)
                     .to("mock:test");
