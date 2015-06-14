@@ -2,6 +2,8 @@ package at.tuwien.wmpm15.group8;
 
 import at.tuwien.wmpm15.group8.beans.MongoDbBean;
 import at.tuwien.wmpm15.group8.routebuilder.*;
+import at.tuwien.wmpm15.group8.simulator.AppSubmissionSimulator;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
@@ -22,7 +24,9 @@ public class MainApp {
      */
     public static void main(String... args) throws Exception {
 
-
+        AppSubmissionSimulator simulator= new AppSubmissionSimulator();
+        simulator.startSimulation(10);
+        
         JndiContext jndiContext = new JndiContext();
         MongoDbBean mgBean=new MongoDbBean();
         jndiContext.bind("myDb", mgBean.getConnection());
@@ -36,17 +40,21 @@ public class MainApp {
         context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 
         //add all the Routes here
-        context.addRoutes(new MulticastRoute());
-        context.addRoutes(new TwitterRoute());
-        context.addRoutes(new FtpRoute());
+       // context.addRoutes(new MulticastRoute());
+      //  context.addRoutes(new TwitterRoute());
+      //  context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
-        context.addRoutes(new SendToDepartment());
-        context.addRoutes(new DepartmentAnswerRoute());
+       // context.addRoutes(new SendToDepartment());
+       // context.addRoutes(new DepartmentAnswerRoute());
+
 
         context.start();
 
-        ProducerTemplate template = context.createProducerTemplate(); // there should be a producer, otherwise route seems not working!
-        Object result =  template.requestBody("direct:findAll", "{}");
+        //context.startRoute("tailableCursorConsumer1");
+
+        
+      //  ProducerTemplate template = context.createProducerTemplate(); // there should be a producer, otherwise route seems not working!
+       // Object result =  template.requestBody("direct:findAll", "{}");
 
     }
 
