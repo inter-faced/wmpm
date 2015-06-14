@@ -15,6 +15,7 @@ import org.apache.camel.util.jndi.JndiContext;
 import org.junit.Test;
 
 import at.tuwien.wmpm15.group8.beans.MongoDbBean;
+import at.tuwien.wmpm15.group8.simulator.AppSubmissionSimulator;
 
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
@@ -68,7 +69,22 @@ public class MongoTest extends AbstractMongoDbTest {
 
     }
     
+    @Test
+    public void testSimulator() throws Exception {
+        assertEquals(0, cappedTestCollection.count());
+        MockEndpoint mock = getMockEndpoint("mock:test");
+        mock.expectedMessageCount(3);
+        
+		AppSubmissionSimulator simpulator= new AppSubmissionSimulator();		
+		simpulator.startSimulation(2000);
+		
+        addTestRoutes();
+        context.startRoute("tailableCursorConsumer1");
+        Thread.sleep(1000);
+        mock.assertIsSatisfied();
+        context.stopRoute("tailableCursorConsumer1");
 
+    }
     public void assertAndResetMockEndpoint(MockEndpoint mock) throws Exception {
         mock.assertIsSatisfied();
         mock.reset();
