@@ -25,7 +25,7 @@ public class MainApp {
     public static void main(String... args) throws Exception {
 
         AppSubmissionSimulator simulator= new AppSubmissionSimulator();
-        simulator.startSimulation(10);
+        simulator.startSimulation();
         
         JndiContext jndiContext = new JndiContext();
         MongoDbBean mgBean=new MongoDbBean();
@@ -40,21 +40,17 @@ public class MainApp {
         context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 
         //add all the Routes here
-       // context.addRoutes(new MulticastRoute());
-      //  context.addRoutes(new TwitterRoute());
-      //  context.addRoutes(new FtpRoute());
+        context.addRoutes(new MulticastRoute());
+        context.addRoutes(new TwitterRoute());
+        context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
-       // context.addRoutes(new SendToDepartment());
-       // context.addRoutes(new DepartmentAnswerRoute());
+        context.addRoutes(new SendToDepartment());
+        context.addRoutes(new DepartmentAnswerRoute());
 
 
         context.start();
-
-        //context.startRoute("tailableCursorConsumer1");
-
-        
-      //  ProducerTemplate template = context.createProducerTemplate(); // there should be a producer, otherwise route seems not working!
-       // Object result =  template.requestBody("direct:findAll", "{}");
+        Thread.sleep(1000);
+      
 
     }
 

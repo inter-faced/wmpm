@@ -107,7 +107,7 @@ public class ProcessCriteria {
 			e.printStackTrace();
 		}
 
-		
+		mongoClient.close();
 	}
 
 
