@@ -18,11 +18,14 @@ import com.mongodb.client.model.CreateCollectionOptions;
 public class AppSubmissionSimulator {
 
 	String cappedCollectionNam;
+	String enrichedCollectionName;
 	MongoCredential credential ;
 	MongoClient mongoClient;
 	MongoDatabase db;
 	MongoCollection <Document> sourceCollection ;
 	MongoCollection <Document> destCollection ;
+	MongoCollection <Document> enrchedApplicantsCollection ;
+	
 
 
 	public AppSubmissionSimulator(){
@@ -30,7 +33,8 @@ public class AppSubmissionSimulator {
 		Properties prop = CredentialsReader.read();
 
 		cappedCollectionNam = prop.getProperty("mongodb.webdbApplicantsCollectionCapped");
-
+		enrichedCollectionName = prop.getProperty("mongodb.webdbApplicantsCollectionEnriched");
+		
 		credential = MongoCredential.createMongoCRCredential(prop.getProperty("mongodb.userName"), prop.getProperty("mongodb.webdbName"), prop.getProperty("mongodb.password").toCharArray());
 
 		mongoClient = new MongoClient(new ServerAddress(prop.getProperty("mongodb.webdburl"),Integer.parseInt(prop.getProperty("mongodb.webdbport"))), Arrays.asList(credential));
@@ -41,6 +45,8 @@ public class AppSubmissionSimulator {
 
 		destCollection = db.getCollection(cappedCollectionNam);
 
+		enrchedApplicantsCollection = db.getCollection(enrichedCollectionName);
+		
 		prepareSimulation();
 
 	}
@@ -60,6 +66,11 @@ public class AppSubmissionSimulator {
 		db.createCollection(cappedCollectionNam , options);
 
 		destCollection=db.getCollection(cappedCollectionNam);
+		
+		
+		enrchedApplicantsCollection.drop();
+		db.createCollection(enrichedCollectionName);
+		
 	}
 
 	
