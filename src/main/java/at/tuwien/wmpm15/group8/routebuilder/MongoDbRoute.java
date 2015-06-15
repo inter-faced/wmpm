@@ -15,15 +15,19 @@ public class MongoDbRoute  extends RouteBuilder {
 
 	public void configure() {
 
+		
 		PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
 		pc.setLocation("classpath:credentials.properties");
 
 
 
-		from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollectionCapped}}&tailTrackIncreasingField=increasing")
+		from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollectionCapped}}&tailTrackIncreasingField=increasing&cursorRegenerationDelay=60000ms")
 		.id("tailableCursorConsumer1")
 		// .autoStartup(false)
-
+		.to("direct:inputApplicants" );
+		
+		
+		from("direct:inputApplicants" )
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
@@ -58,7 +62,7 @@ public class MongoDbRoute  extends RouteBuilder {
 
 
 		// just for testing
-		/*from("jms:queue:multicast.queue")
+/*		from("jms:queue:multicast.queue")
 		.to ("file:target/messages/mongo");*/
 
 

@@ -49,7 +49,7 @@ public class MainApp {
 
 
         context.start();
-        Thread.sleep(1000);
+        Thread.sleep(60000);
       
 
     }
