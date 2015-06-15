@@ -58,8 +58,8 @@ public class MongoDbRoute  extends RouteBuilder {
 
 
 		// just for testing
-		from("jms:queue:multicast.queue")
-		.to ("file:target/messages/mongo");
+		/*from("jms:queue:multicast.queue")
+		.to ("file:target/messages/mongo");*/
 
 
 	}
