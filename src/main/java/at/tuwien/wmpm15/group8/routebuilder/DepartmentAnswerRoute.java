@@ -52,7 +52,7 @@ public class DepartmentAnswerRoute extends RouteBuilder {
 
                     }
                 })
-                .to("{{dep.outserver}}?username={{dep.username}}&password={{dep.password}}&to={{dep.to}}&debugMode=false");
+                .to("{{dep.outserver}}?username={{dep.username}}&password={{dep.password}}&to={{dep.to}}&debugMode=false", "direct:queue");
 
 
     }

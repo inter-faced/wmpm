@@ -46,6 +46,7 @@ public class MainApp {
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
+        context.addRoutes(new MailQueue());
 
 
         context.start();
