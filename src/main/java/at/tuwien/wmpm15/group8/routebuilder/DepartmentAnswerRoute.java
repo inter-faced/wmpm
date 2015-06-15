@@ -9,9 +9,13 @@ import org.json.simple.JSONObject;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
+import java.util.Random;
 
-public class SendToDepartment extends RouteBuilder {
-
+/**
+ * Created by alex on 10.06.15.
+ * Simulation of department process
+ */
+public class DepartmentAnswerRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         // important note: log in with the credentials provided on Google Drive in order to be able to use this route
@@ -20,7 +24,7 @@ public class SendToDepartment extends RouteBuilder {
         PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
         pc.setLocation("classpath:credentials.properties");
 
-        from("direct:mailqueue")
+        from("direct:department")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -32,17 +36,30 @@ public class SendToDepartment extends RouteBuilder {
                         String firstName = (String) jsonObject.get("firstName");
                         String lastName = (String) jsonObject.get("lastName");
                         String id = idObj.get("$oid").toString();
+                        String statusString = "";
+                        Boolean status = getRandomBoolean();
+                        if (status) {
+                           statusString = "accepted";
+                        } else {
+                            statusString = "rejected";
+                        }
 
-                        msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName);
+                        jsonObject.put("Status", statusString);
+
+                        msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName + ", STATUS: " + statusString);
 
                         msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
 
                     }
                 })
-                .to("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to={{smtps.to}}&debugMode=false", "direct:department");
+                .to("{{dep.outserver}}?username={{dep.username}}&password={{dep.password}}&to={{dep.to}}&debugMode=false");
 
 
     }
 
 
+    public boolean getRandomBoolean() {
+        Random random = new Random();
+        return random.nextBoolean();
+    }
 }
