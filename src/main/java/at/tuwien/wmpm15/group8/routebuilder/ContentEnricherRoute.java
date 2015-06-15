@@ -5,7 +5,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 
-import at.tuwien.wmpm15.group8.beans.MyAggregationStrategy;
+import at.tuwien.wmpm15.group8.beans.AggregatorAggregationStrategy;
 
 public class ContentEnricherRoute extends RouteBuilder {
 

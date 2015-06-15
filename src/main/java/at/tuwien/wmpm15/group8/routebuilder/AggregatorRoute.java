@@ -4,7 +4,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.hawtdb.HawtDBAggregationRepository;
 import org.apache.camel.spi.AggregationRepository;
 
-import at.tuwien.wmpm15.group8.beans.MyAggregationStrategy;
+import at.tuwien.wmpm15.group8.beans.AggregatorAggregationStrategy;
 
 public class AggregatorRoute extends RouteBuilder{
 
@@ -24,9 +24,10 @@ public class AggregatorRoute extends RouteBuilder{
 		.to("file:target/messages/intermediateProfile");*/
 		
 		//aggregate message from db with twitter message
-		from("direct:startAggregator")
+		//from("direct:startAggregator")
+		from("direct:eventFilePooler")
 		.log("Sending ${body} with correlation key ${header.id}")
-		.aggregate(header("id"), new MyAggregationStrategy())
+		.aggregate(header("id"), new AggregatorAggregationStrategy())
 		//.aggregate(header("id"))//.to("mock:result")
 		.completionSize(2)
 		//.aggregationRepository(myRepo)

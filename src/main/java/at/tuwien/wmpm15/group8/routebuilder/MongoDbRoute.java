@@ -15,24 +15,27 @@ public class MongoDbRoute  extends RouteBuilder {
 
 	public void configure() {
 
+		
 		PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
-		pc.setLocation("classpath:credentials.properties");//classpath:mongodb.properties
+		pc.setLocation("classpath:credentials.properties");
 
-		from("direct:findAll")
-				.to("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollection}}&operation=findAll")
-				.to("direct:resultFindAll");
 
-		from("direct:resultFindAll")
-		.split(body())
-		.delay(5000)
-		.setExchangePattern(ExchangePattern.InOnly)
+
+		from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollectionCapped}}&tailTrackIncreasingField=increasing&cursorRegenerationDelay=60000ms")
+		.id("tailableCursorConsumer1")
+		// .autoStartup(false)
+		.to("direct:inputApplicants" );
+		
+		
+		from("direct:inputApplicants" )
 		.process(new Processor() {
 			@Override
 			public void process(Exchange exchange) throws Exception {
 				Message msg=exchange.getIn();
 				Object msgBody =exchange.getIn().getBody();
 
-				//System.out.println(">> Applicant Object: " + msgBody);
+
+				System.out.println(">> Applicant Object: " + msgBody);
 
 				JSONParser jsonParser = new JSONParser();
 				JSONObject jsonObject = (JSONObject) jsonParser.parse(msgBody.toString());
@@ -40,30 +43,27 @@ public class MongoDbRoute  extends RouteBuilder {
 
 				String id =   idObj.get("$oid").toString();
 				//System.out.println(">> Applicant ID: "  + id);
-
+				msg.setBody(jsonObject);
 				msg.setHeader("id", id);
-
-
 
 			}
 		})
-		.transform(body().convertToString())
+		//.transform(body().convertToString())
 		.bean(ProcessCriteria.class)
 		.choice()
-			.when(header("status").isEqualTo("qualified"))
-				//.to("jms:queue:applicant.queue")
-				.to("direct:multicast")
-				.log("Applicant qualified!")
+		.when(header("status").isEqualTo("qualified"))
+		//.to("jms:queue:applicant.queue")
+		.to("direct:multicast")
+		.log("Applicant qualified!")
 
-			.otherwise()
-				.to("jms:queue:email.queue")
-				.log("Applicant not qualified!");
+		.otherwise()
+		.to("jms:queue:email.queue")
+		.log("Applicant not qualified!");
 
-		/*
+
 		// just for testing
-		from("jms:queue:multicast.queue")
-		.to ("file:target/messages/mongo");
-		 */
+/*		from("jms:queue:multicast.queue")
+		.to ("file:target/messages/mongo");*/
 
 
 	}

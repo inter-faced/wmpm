@@ -2,7 +2,7 @@ package at.tuwien.wmpm15.group8.beans;
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 
-public class MyAggregationStrategy implements AggregationStrategy {
+public class AggregatorAggregationStrategy implements AggregationStrategy {
 	public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
 		if (oldExchange == null) {
 			return newExchange;

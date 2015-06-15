@@ -11,8 +11,12 @@ public class MulticastRoute extends RouteBuilder {
                 .multicast()
                 .parallelProcessing()
                 //TODO add other social network separated by comma
+
                 //.to("direct:twitterpreproc", "direct:contentproc");//, "direct:startAggregator");
-        		.to("direct:twitterpreproc", "direct:startAggregator");
+        		//.to("direct:twitterpreproc", "direct:startAggregator");
         
+
+                .to("direct:twitterpreproc", "direct:mailqueue", "direct:startAggregator");
+
     }
 }
