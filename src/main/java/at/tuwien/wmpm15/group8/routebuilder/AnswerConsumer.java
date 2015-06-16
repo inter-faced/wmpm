@@ -30,14 +30,24 @@ public class AnswerConsumer extends RouteBuilder {
                         String id = idObj.get("$oid").toString();
                         String pref1 = prefObj.get("preference1").toString();
                         String msgContent = "";
+
+                        String header = "Your application as " + pref1 + ", ID: " + id + " has been " + status;
+
                         if (status == "accepted") {
                             msgContent = "Dear " + firstName + " " + lastName + ", \n" +
                                     "You are so great we want to meet you!";
+
                         } else {
                             msgContent = "Dear " + firstName + " " + lastName + ", \n" +
                                     "Your resume sucks so bad, that we regret even reading it!";
+                            if (status == null) {
+                                header = "Your application as " + pref1 + ", ID: " + id + " has been rejected (unqualified)";
+                            }
+
                         }
-                        msg.setHeader("subject", "Your application as " + pref1 + ", ID: " + id + " has been " + status);
+
+
+                        msg.setHeader("subject", header);
                         msg.setBody(msgContent);
                         msg.removeAttachment("LOR.jpg");
                     }
