@@ -19,6 +19,7 @@ public class InvitationRoute extends RouteBuilder {
         PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
         pc.setLocation("classpath:credentials.properties");
 
+        //to do dynamic address
         from("direct:invite")
                 .process(new Processor() {
                     @Override
@@ -26,7 +27,7 @@ public class InvitationRoute extends RouteBuilder {
                         Message msg = exchange.getIn();
                     }
                 })
-                .to("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to={{smtps.to}}&debugMode=false");
+                .to("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to=pinoccio69@gmx.at&debugMode=false");
 
 
     }

@@ -8,11 +8,10 @@ import org.apache.camel.builder.RouteBuilder;
 public class MailQueue extends RouteBuilder {
     public void configure() throws Exception {
         from("jms:queue:email.queue")
-                // send it to the seda queue that is async
-                .to("seda:next")
-                        // return a constant response
-                .transform(constant("OK"));
+                .to("direct:reject");
 
-        from("seda:next").to("mock:result");
+        //to do: dynamic address in to block
+        from("direct:reject").to("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to=pinoccio69@gmx.at&debugMode=false");
+
     }
 }
