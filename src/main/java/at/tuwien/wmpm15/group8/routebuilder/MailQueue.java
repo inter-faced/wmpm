@@ -7,7 +7,7 @@ import org.apache.camel.builder.RouteBuilder;
  */
 public class MailQueue extends RouteBuilder {
     public void configure() throws Exception {
-        from("direct:queue")
+        from("jms:queue:email.queue")
                 // send it to the seda queue that is async
                 .to("seda:next")
                         // return a constant response

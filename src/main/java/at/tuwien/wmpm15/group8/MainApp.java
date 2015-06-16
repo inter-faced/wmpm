@@ -3,11 +3,9 @@ package at.tuwien.wmpm15.group8;
 import at.tuwien.wmpm15.group8.beans.MongoDbBean;
 import at.tuwien.wmpm15.group8.routebuilder.*;
 import at.tuwien.wmpm15.group8.simulator.AppSubmissionSimulator;
-
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.util.jndi.JndiContext;
@@ -47,6 +45,8 @@ public class MainApp {
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
         context.addRoutes(new SaveToDbRoute());
+        context.addRoutes(new AnswerConsumer());
+        context.addRoutes(new InvitationRoute());
         context.addRoutes(new MailQueue());
 
 
