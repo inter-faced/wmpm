@@ -42,6 +42,7 @@ public class MainApp {
         //add all the Routes here
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
+        context.addRoutes(new FacebookRoute()); 
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
