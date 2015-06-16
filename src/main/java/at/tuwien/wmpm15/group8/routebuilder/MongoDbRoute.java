@@ -24,8 +24,6 @@ public class MongoDbRoute  extends RouteBuilder {
 		// .autoStartup(false)
 		.to("direct:inputApplicants","direct:savetodb" );//TODO remove savetodb from here
 
-
-
 		from("direct:inputApplicants")
 		.process(new Processor() {
 			@Override
