@@ -29,7 +29,7 @@ public class TwitterRoute extends RouteBuilder {
                             twitter.put("error", "applicant did not insert twitter-username");
                             exchange.getIn().setHeader("twitterempty", true);
                         } else {
-                                DynamicRouteBuilder dynamicRouteBuilder = new DynamicRouteBuilder("twitter://timeline/user?type=polling&user=" + twittername + "&count=1&numberOfPages=1&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}",
+                                DynamicRouteBuilder dynamicRouteBuilder = new DynamicRouteBuilder("twitter://timeline/user?type=polling&numberOfPages=1&count=1&user=" + twittername + "&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}",
                                         "direct:twitterresult",
                                         "eventFilePooler"); //dynamic route name
                                 exchange.getContext().addRoutes(dynamicRouteBuilder);
@@ -37,11 +37,12 @@ public class TwitterRoute extends RouteBuilder {
                         }
                     }
                 })
+                //.log("headerid:   ${header.id} twitterempty: ${header.twitterempty}")
                 .choice()
                 .when(header("twitterempty").isEqualTo(true))
-                    .to("direct:twitterresult")
+                .to("direct:twitterresult")
                 .otherwise()
-                    .to("direct:eventFilePooler");
+                .to("direct:eventFilePooler");
 
         //TODO instead of twitterresult it should go to the aggregator - change it in the dynamicRouteBuilder and delete the part bellow
         from("direct:twitterresult")
