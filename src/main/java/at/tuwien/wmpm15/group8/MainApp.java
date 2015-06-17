@@ -42,11 +42,12 @@ public class MainApp {
         //add all the Routes here
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
+        context.addRoutes(new AggregatorRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
-        context.addRoutes(new ContentEnricherRoute());
+       // context.addRoutes(new ContentEnricherRoute());
         /*  
         template.sendBodyAndHeader("direct:startAggregator", "A", "id", 1);
         template.sendBodyAndHeader("direct:startAggregator", "B", "id", 1);

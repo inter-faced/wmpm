@@ -31,6 +31,7 @@ public class TwitterRoute extends RouteBuilder {
                             DynamicRouteBuilder dynamicRouteBuilder = new DynamicRouteBuilder("twitter://timeline/user?type=polling&user=" + twittername + "&count=1&numberOfPages=1&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}",
                                     "direct:twitterresult",
                                     "eventFilePooler"); //dynamic route name
+                           
                             exchange.getContext().addRoutes(dynamicRouteBuilder);
                         } catch (IllegalArgumentException exept) {
                             System.out.println("ERROR in DynamicRouteBuilder: " + exept);
@@ -43,10 +44,13 @@ public class TwitterRoute extends RouteBuilder {
                     }
                 })
                 .to("direct:eventFilePooler");
+                
+        		/*.to("direct:startAggregator");*/
 
         //TODO instead of twitterresult it should go to the aggregator - change it in the dynamicRouteBuilder and delete the part bellow
         from("direct:twitterresult")
                 .transform(body().convertToString())
+                .log("Twitter result to be sent to aggregator+ ")
                 //.to("file:target/messages/twitter");
                 .to("direct:startAggregator");
         

@@ -25,13 +25,13 @@ public class AggregatorRoute extends RouteBuilder{
 		
 		//aggregate message from db with twitter message
 		//from("direct:startAggregator")
-		from("direct:eventFilePooler")
-		.log("Sending ${body} with correlation key ${header.id}")
-		.aggregate(header("id"), new AggregatorAggregationStrategy())
+		from("direct:startAggregator")
+		.log("To aggregate from Twitter: ${body} with correlation key ${header.id}")
+		.aggregate(header("_id"), new AggregatorAggregationStrategy())
 		//.aggregate(header("id"))//.to("mock:result")
 		.completionSize(2)
 		//.aggregationRepository(myRepo)
-		.log("Sending out ${body}")
+		.log("Aggregation Result Database and Twitter ${body}")
 		.to("file:target/messages/intermediateProfile");
 	}
 
