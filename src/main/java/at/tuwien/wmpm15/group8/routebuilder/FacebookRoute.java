@@ -39,12 +39,12 @@ public class FacebookRoute extends RouteBuilder{
             
                     String facebookLink = (String) facebook.get("directlink");
                     System.out.println("------>>>>>>> get data from facebookLINK:" + facebookLink);
-                    /*JSONObject idObj = (JSONObject) jsonObject.get("_id");
+                    JSONObject idObj = (JSONObject) jsonObject.get("_id");
                     String id =   idObj.get("$oid").toString();
                     
                     msg.setBody(facebook);
     				msg.setHeader("id", id);
-                    */
+                    
                 }
             })
             .log("-->>Facebook Filtered Body: ${body}")
