@@ -28,7 +28,6 @@ public class AggregatorRoute extends RouteBuilder{
 		.to("file:target/messages/intermediateProfile");*/
 		
 		
-		
 		//aggregate message from db with twitter message
 		//from("direct:startAggregator")
 		from("direct:startAggregator")
@@ -41,23 +40,6 @@ public class AggregatorRoute extends RouteBuilder{
 		.to("direct:startContentEnricher")
 		.to("file:target/messages/intermediateProfile");
 		
-		
-		/*
-		 from("direct:startAggregator")
-         .process(new Processor() {
-             @Override
-             public void process(Exchange exchange) throws Exception {
-
-                 JSONObject jsonObject = exchange.getIn().getBody(JSONObject.class);
-                 JSONObject idForAggregation = (JSONObject) jsonObject.get("id");
-
-                 String id = (String) idForAggregation.get("$oid");
-             }
-         })
-         .aggregate(header("id"), new AggregatorAggregationStrategy())
-         .completionSize(2)
-         .log("Aggregation Result Database and Twitter ${body}")
- 		.to("file:target/messages/intermediateProfile");*/
 	}
 
 }
