@@ -47,7 +47,7 @@ public class MainApp {
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
-       // context.addRoutes(new ContentEnricherRoute());
+        context.addRoutes(new ContentEnricherRoute());
         /*  
         template.sendBodyAndHeader("direct:startAggregator", "A", "id", 1);
         template.sendBodyAndHeader("direct:startAggregator", "B", "id", 1);
