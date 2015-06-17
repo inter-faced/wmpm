@@ -20,11 +20,11 @@ class DynamicRouteBuilder extends RouteBuilder {
         this.routeId = routeId;
     }
 
-
     //Dynamic route creation
     @Override
     public void configure() throws Exception {
-        from("direct:"+routeId).id(routeId) //Dynamic entry point
+        from("direct:"+routeId)
+                .id(routeId) //Dynamic entry point
                 .pollEnrich(enrichUri, 2000, TWITTER_AGGREGATION_STRATEGY)
                 .to(outUri) //Exit point, where we can wait statically to continue processing
                 .process(new ShutDownProcessor());
