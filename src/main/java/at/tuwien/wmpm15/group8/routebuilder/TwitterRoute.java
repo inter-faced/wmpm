@@ -2,7 +2,6 @@ package at.tuwien.wmpm15.group8.routebuilder;
 
 
 import org.apache.camel.Exchange;
-import org.apache.camel.PollingConsumer;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
@@ -26,34 +25,29 @@ public class TwitterRoute extends RouteBuilder {
                         JSONObject twitter = (JSONObject) socialnetworks.get("twitter");
                         String twittername = (String) twitter.get("nickname");
 
-                        try {
-
-                            DynamicRouteBuilder dynamicRouteBuilder = new DynamicRouteBuilder("twitter://timeline/user?type=polling&user=" + twittername + "&count=1&numberOfPages=1&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}",
-                                    "direct:twitterresult",
-                                    "eventFilePooler"); //dynamic route name
-                           
-                            exchange.getContext().addRoutes(dynamicRouteBuilder);
-                        } catch (IllegalArgumentException exept) {
-                            System.out.println("ERROR in DynamicRouteBuilder: " + exept);
+                        if (twittername.trim().isEmpty()) {
                             twitter.put("error", "applicant did not insert twitter-username");
-                            exchange.getContext().createProducerTemplate().sendBody("direct:twitterresult", jsonObject);
-
-                            PollingConsumer consumer = getContext().getEndpoint("direct:eventFilePooler").createPollingConsumer();
-                            consumer.start();
+                            exchange.getIn().setHeader("twitterempty", true);
+                        } else {
+                                DynamicRouteBuilder dynamicRouteBuilder = new DynamicRouteBuilder("twitter://timeline/user?type=polling&numberOfPages=1&count=1&user=" + twittername + "&consumerKey={{twitter.consumerKey}}&consumerSecret={{twitter.consumerSecret}}&accessToken={{twitter.accessToken}}&accessTokenSecret={{twitter.accessTokenSecret}}",
+                                        "direct:twitterresult",
+                                        "eventFilePooler"); //dynamic route name
+                                exchange.getContext().addRoutes(dynamicRouteBuilder);
+                                exchange.getIn().setHeader("twitterempty", false);
                         }
                     }
                 })
+                //.log("headerid:   ${header.id} twitterempty: ${header.twitterempty}")
+                .choice()
+                .when(header("twitterempty").isEqualTo(true))
+                .to("direct:twitterresult")
+                .otherwise()
                 .to("direct:eventFilePooler");
-                
-        		/*.to("direct:startAggregator");*/
 
         //TODO instead of twitterresult it should go to the aggregator - change it in the dynamicRouteBuilder and delete the part bellow
         from("direct:twitterresult")
                 .transform(body().convertToString())
-                .log("Twitter result to be sent to aggregator+ ")
-                //.to("file:target/messages/twitter");
-                .to("direct:startAggregator");
-        
-        
+                //.log("Bodyfilesave: ${body}")
+                .to("file:target/messages/twitter");
     }
 }
