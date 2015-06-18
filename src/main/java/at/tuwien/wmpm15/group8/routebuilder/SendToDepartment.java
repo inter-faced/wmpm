@@ -7,9 +7,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-
 public class SendToDepartment extends RouteBuilder {
 
     public void configure() throws Exception {
@@ -20,7 +17,7 @@ public class SendToDepartment extends RouteBuilder {
         PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
         pc.setLocation("classpath:credentials.properties");
 
-        from("direct:mailqueue")
+        from("direct:departmentsend")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -35,7 +32,7 @@ public class SendToDepartment extends RouteBuilder {
 
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName);
 
-                        msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
+                        // msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
 
                     }
                 })

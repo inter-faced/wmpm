@@ -25,9 +25,9 @@ public class FtpRoute extends RouteBuilder {
         /*
         * Download files from FTP server and move them to hidden directory .done
         */
-        from("{{ftp.server}}&delay=10s&move=.done&binary=true")
+  /*      from("{{ftp.server}}&delay=10s&move=.done&binary=true")
                     .to("file:target/messages/attachments")
-                    .log("Downloaded file ${file:name} complete.");
+                    .log("Downloaded file ${file:name} complete.");*/
     }
 
 
