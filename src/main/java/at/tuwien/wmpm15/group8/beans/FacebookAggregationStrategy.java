@@ -25,16 +25,10 @@ public class FacebookAggregationStrategy implements AggregationStrategy {
          } else {
 
            
-        	 
-        	 //Status status = newExchange.getIn().getBody(Status.class);
-
-             // enriching the oldBody with facebook data
-            // facebook.put("interests",  getInterests());
-           /*  twitter.put("favouritesCount", status.getUser().getFavouritesCount());
-             twitter.put("followersCount", status.getUser().getFollowersCount());
-             twitter.put("tweetCount", status.getUser().getStatusesCount());
-*/
-             return oldExchange;
+        	  JSONObject newBody = newExchange.getIn().getBody(JSONObject.class);
+        	  facebook.put("name", newBody.get("name"));
+              
+         return oldExchange;
          }
 
 	}

@@ -1,5 +1,7 @@
 package at.tuwien.wmpm15.group8.routebuilder;
 
+import java.util.Properties;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
@@ -7,6 +9,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import at.tuwien.wmpm15.group8.utils.CredentialsReader;
 
 
 
@@ -17,8 +21,8 @@ public class FacebookRoute extends RouteBuilder{
 		 PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
 	        pc.setLocation("classpath:credentials.properties");
 	        
-	       	        
-
+	        Properties prop= CredentialsReader.read();
+	        
 	        from("direct:facebookpreproc")
             .process(new Processor() {
                 @Override
@@ -39,19 +43,34 @@ public class FacebookRoute extends RouteBuilder{
             
                     String facebookLink = (String) facebook.get("directlink");
                     System.out.println("------>>>>>>> get data from facebookLINK:" + facebookLink);
-                    JSONObject idObj = (JSONObject) jsonObject.get("_id");
-                    String id =   idObj.get("$oid").toString();
+                   
+                    if (facebookLink.trim().isEmpty()) {
+                        facebook.put("error", "applicant did not insert facebook link");
+                        exchange.getIn().setHeader("facebookempty", true);
+                    } else {
+                    	
+                    	DynamicRouteBuilderFacebook dynamicRouteBuilderFacebook = new DynamicRouteBuilderFacebook("facebook://" + facebookLink + "facebook:"+facebookLink+"/?access_token={{facebook.accessToken}}",
+                                "direct:facebookresult",
+                                "eventFilePoolerfacebook"); //dynamic route name
                     
-                    msg.setBody(facebook);
-    				msg.setHeader("id", id);
-                    
+                        exchange.getContext().addRoutes(dynamicRouteBuilderFacebook);
+                        exchange.getIn().setHeader("facebookempty", false);
+                    	
+                    }
                 }
             })
-            .log("-->>Facebook Filtered Body: ${body}")
-           // .transform(body().convertToString())
+             .log("facebook ${{facebook.accessToken}}")    
+           /* .log("-->>Facebook Filtered Body: ${body}")
+            .transform(body().convertToString())
             .to("mock:facebookLink")
-            .log("-->>Facebook output: ${body}");
-
+            .log("-->>Facebook output: ${body}");*/
+            
+             .choice()
+                .when(header("facebookempty").isEqualTo(true))
+                .to("direct:facebookresult")
+                .otherwise()
+                .to("direct:eventFilePoolerfacebook");
+	        
     from("direct:facebookresult")
             .to("file:target/messages/facebook");
 	}

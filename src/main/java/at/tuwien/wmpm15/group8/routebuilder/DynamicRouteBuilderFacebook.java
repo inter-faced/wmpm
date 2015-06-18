@@ -4,7 +4,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
-
 import at.tuwien.wmpm15.group8.beans.FacebookAggregationStrategy;
 
 public class DynamicRouteBuilderFacebook extends RouteBuilder {
@@ -14,7 +13,7 @@ public class DynamicRouteBuilderFacebook extends RouteBuilder {
     private final String routeId;
     private static final AggregationStrategy FACEBOOK_AGGREGATION_STRATEGY = new FacebookAggregationStrategy();
 
-    DynamicRouteBuilderFacebook(String enrichUri, String outUri, String routeId) {
+    public DynamicRouteBuilderFacebook(String enrichUri, String outUri, String routeId) {
         this.enrichUri = enrichUri;
         this.outUri = outUri;
         this.routeId = routeId;
@@ -24,7 +23,7 @@ public class DynamicRouteBuilderFacebook extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:"+routeId).id(routeId) //Dynamic entry point
-                .pollEnrich(enrichUri, 2000, FACEBOOK_AGGREGATION_STRATEGY)
+                .pollEnrich(enrichUri, 2011, FACEBOOK_AGGREGATION_STRATEGY)
                 .to(outUri) //Exit point, where we can wait staically to continue processing
                 .process(new ShutDownProcessor());
     }
