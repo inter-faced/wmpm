@@ -7,9 +7,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-
 public class SendToDepartment extends RouteBuilder {
 
     public void configure() throws Exception {
@@ -34,9 +31,7 @@ public class SendToDepartment extends RouteBuilder {
                         String id = idObj.get("$oid").toString();
 
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName);
-
-                        msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
-
+                        //Attachments are added in ContentEnricherRoute
                     }
                 })
                 .to("{{smtps.outserver}}?username={{smtps.username}}&password={{smtps.password}}&to={{smtps.to}}&debugMode=false", "direct:department");

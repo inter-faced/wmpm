@@ -48,7 +48,7 @@ public class DepartmentAnswerRoute extends RouteBuilder {
 
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName + ", STATUS: " + statusString);
 
-                        msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
+                        msg.addAttachment("LOR4.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR4.jpg")));
 
                     }
                 })
