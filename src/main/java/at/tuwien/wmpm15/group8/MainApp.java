@@ -31,7 +31,7 @@ public class MainApp {
 
         CamelContext context = new DefaultCamelContext(jndiContext);
         context.getProperties().put(Exchange.LOG_DEBUG_BODY_MAX_CHARS, "3000");
-        context.getShutdownStrategy().setTimeout(5); // for twitter messages that should not be processed
+        context.getShutdownStrategy().setTimeout(3); // for twitter messages that should not be processed
 
         // Set up the ActiveMQ JMS Components
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("vm://localhost?broker.persistent=false");

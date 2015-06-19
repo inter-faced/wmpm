@@ -22,7 +22,7 @@ public class MongoDbRoute  extends RouteBuilder {
 		from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollectionCapped}}&tailTrackIncreasingField=increasing&cursorRegenerationDelay=60000ms")
 		.id("tailableCursorConsumer1")
 		// .autoStartup(false)
-		.to("direct:inputApplicants","direct:savetodb" );//TODO remove savetodb from here
+		.multicast().to("direct:inputApplicants","direct:savetodb" );//TODO remove multicast & savetodb from here
 
 		from("direct:inputApplicants")
 		.process(new Processor() {
