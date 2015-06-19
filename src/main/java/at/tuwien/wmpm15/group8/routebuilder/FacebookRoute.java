@@ -49,8 +49,9 @@ public class FacebookRoute extends RouteBuilder{
                         exchange.getIn().setHeader("facebookempty", true);
                     } else {
                     	
-                    	DynamicRouteBuilderFacebook dynamicRouteBuilderFacebook = new DynamicRouteBuilderFacebook("facebook://" + facebookLink + "facebook:"+facebookLink+"/?access_token={{facebook.accessToken}}",
-                                "direct:facebookresult",
+                    //	DynamicRouteBuilderFacebook dynamicRouteBuilderFacebook = new DynamicRouteBuilderFacebook("facebook://" + facebookLink + "facebook:"+facebookLink+"/?access_token={{facebook.accessToken}}",
+                    	DynamicRouteBuilderFacebook dynamicRouteBuilderFacebook = new DynamicRouteBuilderFacebook("facebook://" + facebookLink + "?query=cheese&reading.limit=10&reading.locale=en.US&reading.since=" + 1439903593 + "&consumer.initialDelay=1000&" + "?&oAuthAccessToken={{facebook.accessToken}}&oAuthAppId=={{facebook.appId}}&oAuthAppSecret=={{facebook.appSecret}}",
+                    			"direct:facebookresult",
                                 "eventFilePoolerfacebook"); //dynamic route name
                     
                         exchange.getContext().addRoutes(dynamicRouteBuilderFacebook);
@@ -60,10 +61,10 @@ public class FacebookRoute extends RouteBuilder{
                 }
             })
              .log("facebook ${{facebook.accessToken}}")    
-           /* .log("-->>Facebook Filtered Body: ${body}")
-            .transform(body().convertToString())
-            .to("mock:facebookLink")
-            .log("-->>Facebook output: ${body}");*/
+            .log("-->>Facebook Filtered Body: ${body}")
+           /* .transform(body().convertToString())
+            .to("mock:facebookLink")*/
+            //.log("-->>Facebook output: ${body}")
             
              .choice()
                 .when(header("facebookempty").isEqualTo(true))
