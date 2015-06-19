@@ -12,6 +12,7 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.util.jndi.JndiContext;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import at.tuwien.wmpm15.group8.beans.MongoDbBean;
@@ -35,7 +36,7 @@ public class MongoTest extends AbstractMongoDbTest {
        
         // create a capped collection with max = 10
         cappedTestCollection = db.createCollection(cappedTestCollectionName, 
-                BasicDBObjectBuilder.start().add("capped", true).add("size", 100000).add("max", 10).get());
+                BasicDBObjectBuilder.start().add("capped", true).add("size", 100).add("max", 10).get());
         
         for (int i = 0; i < 10; i++) {
             cappedTestCollection.insert(BasicDBObjectBuilder.start("increasing", i).add("string", "value" + i).get(), WriteConcern.SAFE);
@@ -58,7 +59,7 @@ public class MongoTest extends AbstractMongoDbTest {
        
         // create a capped collection with max = 1000
         cappedTestCollection = db.createCollection(cappedTestCollectionName, 
-                BasicDBObjectBuilder.start().add("capped", true).add("size", 100000).add("max", 10).get());
+                BasicDBObjectBuilder.start().add("capped", true).add("size", 100).add("max", 10).get());
         assertEquals(0, cappedTestCollection.count());
 
         addTestRoutes();
@@ -69,14 +70,14 @@ public class MongoTest extends AbstractMongoDbTest {
 
     }
     
-    @Test
+    @Ignore@Test
     public void testSimulator() throws Exception {
         assertEquals(0, cappedTestCollection.count());
         MockEndpoint mock = getMockEndpoint("mock:test");
         mock.expectedMessageCount(3);
         
 		AppSubmissionSimulator simpulator= new AppSubmissionSimulator();		
-		simpulator.startSimulation(2000);
+		simpulator.startSimulation();
 		
         addTestRoutes();
         context.startRoute("tailableCursorConsumer1");

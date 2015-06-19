@@ -51,7 +51,12 @@ public class MainApp {
 
 
         context.start();
-        Thread.sleep(60000);
+        
+        context.startRoute("tailableCursorConsumer");
+        
+        Thread.sleep(70000);
+
+        context.stopRoute("tailableCursorConsumer");
       
 
     }
