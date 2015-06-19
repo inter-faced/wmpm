@@ -1,45 +1,49 @@
 package at.tuwien.wmpm15.group8.beans;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.json.simple.JSONObject;
-
-import twitter4j.Status;
 
 public class AggregatorAggregationStrategy implements AggregationStrategy {
 
 	public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
-		
-		if (oldExchange == null){
-			return newExchange;
-		}
-		
-		JSONObject oldBody = oldExchange.getIn().getBody(JSONObject.class);
-		JSONObject newBody = newExchange.getIn().getBody(JSONObject.class);
-       
-		if(newExchange==null){
+
+		if (newExchange == null) {
+			System.out.println("-------newExchange is null!!!!");
 			return oldExchange;
 		}
-		
-		JSONObject socialnetworks = (JSONObject) oldBody.get("socialnetworks");
-        JSONObject twitter = (JSONObject) socialnetworks.get("twitter");
-        System.out.println("----To aggregate old" + twitter);
-        System.out.println("-----New body:" + newBody.toString());
-     
-        JSONObject newsocialnetworks = (JSONObject) newBody.get("socialnetworks");
-		JSONObject newtwitter = (JSONObject) socialnetworks.get("twitter");
-		 System.out.println("----To aggregate new" + newtwitter);
-		System.out.println("------New twitter " + newtwitter);
-		String favouritesCount = (String) newtwitter.get("favouritesCount");
-		String followersCount = (String) newtwitter.get("followersCount");
-		String tweetCount = (String) newtwitter.get("tweetCount");
-		
-		twitter.put("favouritesCount", favouritesCount);
-		twitter.put("followersCount", followersCount);
-		twitter.put("tweetCount", tweetCount);
-		System.out.println("FINAL result aggregator:" + twitter);
-		
+
+		if (oldExchange == null) {
+			System.out.println("-------oldExchange is null!!!!");
+			return newExchange;
+		}
+
+		//oldBody from Database
+		JSONObject newBody = oldExchange.getIn().getBody(JSONObject.class);
+		//newBody comes with new Twitter Data
+		JSONObject oldBody = newExchange.getIn().getBody(JSONObject.class);
+		System.out.println("------oldbody " + oldBody);
+		System.out.println("------newbody " + newBody);
+
+
+
+		//remove old Twitter Object from the oldBody Json
+		JSONObject oldsocialnetworks = (JSONObject) oldBody.get("socialnetworks");
+		JSONObject newsocialnetworks = (JSONObject) newBody.get("socialnetworks");
+
+		//System.out.println("------before oldsocialnetworks" + oldsocialnetworks);
+		System.out.println("------thats  newsocialnetworks1" + newsocialnetworks);
+		//oldsocialnetworks.remove("twitter");
+
+		//get new Twitter Object from newBody and place it into oldsocialnetworks
+		System.out.println("------thats  newsocialnetworks2" + newsocialnetworks);
+		//JSONObject newtwitter = (JSONObject) newsocialnetworks.get("twitter");
+		//System.out.println("------thats  newtwitter" + newtwitter);
+
+		//oldsocialnetworks.put("twitter", newtwitter);
+
+		//System.out.println("------after oldsocialnetworks" + oldsocialnetworks);
+
 		return oldExchange;
 	}
 }

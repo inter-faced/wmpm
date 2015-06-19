@@ -46,8 +46,8 @@ public class TwitterRoute extends RouteBuilder {
 
         //TODO instead of twitterresult it should go to the aggregator - change it in the dynamicRouteBuilder and delete the part bellow
         from("direct:twitterresult")
-                .transform(body().convertToString())
-                //.log("Bodyfilesave: ${body}")
+                //.transform(body().convertToString())
+                .log("Bodyfilesave: ${body}")
                // .to("file:target/messages/twitter")
                 .to("direct:startAggregator");
         		//.to("direct:startContentEnricher");        		
