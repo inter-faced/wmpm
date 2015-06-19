@@ -50,6 +50,11 @@ public class MainApp {
         context.addRoutes(new MailQueue());
 
 
+        /* Not working Routes
+        context.addRoutes(new AggregatorRoute());
+        context.addRoutes(new FacebookRoute());
+         */
+
         context.start();
         
         context.startRoute("tailableCursorConsumer");
