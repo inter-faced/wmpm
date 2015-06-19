@@ -44,10 +44,9 @@ public class TwitterRoute extends RouteBuilder {
                 .otherwise()
                 .to("direct:eventFilePooler");
 
-        //TODO instead of twitterresult it should go to the aggregator - change it in the dynamicRouteBuilder and delete the part bellow
+        
         from("direct:twitterresult")
-                .transform(body().convertToString())
-                //.log("Bodyfilesave: ${body}")
-                .to("file:target/messages/twitter");
+               
+                .to("direct:savetodb");
     }
 }
