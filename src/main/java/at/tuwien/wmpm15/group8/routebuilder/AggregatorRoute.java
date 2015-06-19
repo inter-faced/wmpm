@@ -14,18 +14,6 @@ public class AggregatorRoute extends RouteBuilder{
 
 	@Override
 	public void configure() throws Exception {
-		//set up HawtDB
-		//AggregationRepository myRepo = new
-			//	HawtDBAggregationRepository("myrepo", "src/data/myrepo.dat");
-		
-		/*from("direct:startAggregator")
-		.log("Sending ${body} with correlation key ${header.id}")
-		//.aggregate(header("id"), new MyAggregationStrategy())
-		.aggregate(new MyAggregationStrategy()).header("id")
-		.completionSize(2)
-		//.aggregationRepository(myRepo)
-		.log("Sending out ${body}")
-		.to("file:target/messages/intermediateProfile");*/
 		
 		
 		//aggregate message from db with twitter message
