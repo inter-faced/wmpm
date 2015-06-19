@@ -35,7 +35,7 @@ public class SendToDepartment extends RouteBuilder {
 
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName);
 
-                        msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
+                        msg.addAttachment("LOR3.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR3.jpg")));
 
                     }
                 })

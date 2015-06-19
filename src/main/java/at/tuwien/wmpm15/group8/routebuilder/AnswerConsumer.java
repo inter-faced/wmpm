@@ -49,7 +49,7 @@ public class AnswerConsumer extends RouteBuilder {
 
                         msg.setHeader("subject", header);
                         msg.setBody(msgContent);
-                        msg.removeAttachment("LOR.jpg");
+                        msg.removeAttachment("LOR3.jpg");
                     }
                 })
                 .log(String.valueOf(body()))

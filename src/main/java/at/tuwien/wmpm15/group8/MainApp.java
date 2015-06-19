@@ -42,6 +42,7 @@ public class MainApp {
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
+        //context.addRoutes(new ContentEnricherRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
         context.addRoutes(new SaveToDbRoute());
