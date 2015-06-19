@@ -42,7 +42,6 @@ public class MainApp {
         context.addRoutes(new TwitterRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
-        //context.addRoutes(new ContentEnricherRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
         context.addRoutes(new SaveToDbRoute());
@@ -50,8 +49,8 @@ public class MainApp {
         context.addRoutes(new InvitationRoute());
         context.addRoutes(new MailQueue());
 
-
         /* Not working Routes
+        context.addRoutes(new ContentEnricherRoute())
         context.addRoutes(new AggregatorRoute());
         context.addRoutes(new FacebookRoute());
          */
