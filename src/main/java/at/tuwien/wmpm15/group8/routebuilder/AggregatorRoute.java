@@ -37,7 +37,6 @@ public class AggregatorRoute extends RouteBuilder{
 		.completionSize(2)
 		//.aggregationRepository(myRepo)
 		.log("Aggregation Result Database and Twitter ${body}")
-		.to("direct:startContentEnricher")
 		.to("file:target/messages/intermediateProfile");
 		
 	}

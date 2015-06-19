@@ -9,16 +9,12 @@ import at.tuwien.wmpm15.group8.beans.AggregatorAggregationStrategy;
 
 public class ContentEnricherRoute extends RouteBuilder {
 
-	public ContentEnricherRoute() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public void configure() throws Exception {
 		 from("direct:startContentEnricher")
 		 .log("CONTENTENR-->>>Body before file fetch: " + "${body}")
 		 				
-		.pollEnrich("file:src/data?fileName=message2.xml")//, new MyAggregationStrategy())
+		.pollEnrich("file:src/data/attachments?fileName=Transcript.jpg")//, new MyAggregationStrategy())
 					.log("CONTENTENR-->>>Body after file fetch: " + "${body}")
 					 .to("file:target/messages/finalProfile");
 	}

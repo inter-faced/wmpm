@@ -48,6 +48,8 @@ public class TwitterRoute extends RouteBuilder {
         from("direct:twitterresult")
                 .transform(body().convertToString())
                 //.log("Bodyfilesave: ${body}")
-                .to("file:target/messages/twitter");
+               // .to("file:target/messages/twitter")
+                .to("direct:startAggregator");
+        		//.to("direct:startContentEnricher");        		
     }
 }
