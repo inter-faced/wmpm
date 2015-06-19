@@ -49,9 +49,19 @@ public class MainApp {
         context.addRoutes(new InvitationRoute());
         context.addRoutes(new MailQueue());
 
+        /* Not working Routes
+        context.addRoutes(new ContentEnricherRoute())
+        context.addRoutes(new AggregatorRoute());
+        context.addRoutes(new FacebookRoute());
+         */
 
         context.start();
-        Thread.sleep(60000);
+        
+        context.startRoute("tailableCursorConsumer");
+        
+        Thread.sleep(70000);
+
+        context.stopRoute("tailableCursorConsumer");
       
 
     }
