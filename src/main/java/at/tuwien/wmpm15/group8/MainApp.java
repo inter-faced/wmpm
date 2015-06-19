@@ -40,28 +40,24 @@ public class MainApp {
         //add all the Routes here
         context.addRoutes(new MulticastRoute());
         context.addRoutes(new TwitterRoute());
-        context.addRoutes(new AggregatorRoute());
         context.addRoutes(new FtpRoute());
         context.addRoutes(new MongoDbRoute());
         context.addRoutes(new SendToDepartment());
         context.addRoutes(new DepartmentAnswerRoute());
-
-     //   context.addRoutes(new ContentEnricherRoute());
-        /*  
-        template.sendBodyAndHeader("direct:startAggregator", "A", "id", 1);
-        template.sendBodyAndHeader("direct:startAggregator", "B", "id", 1);
-        template.sendBodyAndHeader("direct:startAggregator", "F", "id", 2);
-        template.sendBodyAndHeader("direct:startAggregator", "C", "id", 1);*/
-
         context.addRoutes(new SaveToDbRoute());
         context.addRoutes(new AnswerConsumer());
         context.addRoutes(new InvitationRoute());
         context.addRoutes(new MailQueue());
 
+
         context.start();
-        Thread.sleep(60000);
+        
+        context.startRoute("tailableCursorConsumer");
+        
+        Thread.sleep(70000);
+
+        context.stopRoute("tailableCursorConsumer");
       
 
     }
-
 }

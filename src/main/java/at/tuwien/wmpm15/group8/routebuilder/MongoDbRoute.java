@@ -13,15 +13,13 @@ public class MongoDbRoute  extends RouteBuilder {
 
 	public void configure() {
 
-		
 		PropertiesComponent pc = getContext().getComponent("properties", PropertiesComponent.class);
 		pc.setLocation("classpath:credentials.properties");
 
 
-
 		from("mongodb:myDb?database={{mongodb.webdbName}}&collection={{mongodb.webdbApplicantsCollectionCapped}}&tailTrackIncreasingField=increasing&cursorRegenerationDelay=60000ms")
-		.id("tailableCursorConsumer1")
-		// .autoStartup(false)
+		.id("tailableCursorConsumer")
+		.autoStartup(false)
 		.multicast().to("direct:inputApplicants","direct:savetodb" );//TODO remove multicast & savetodb from here
 
 		from("direct:inputApplicants")
@@ -39,30 +37,24 @@ public class MongoDbRoute  extends RouteBuilder {
 				JSONObject idObj = (JSONObject) jsonObject.get("_id");
 
 				String id =   idObj.get("$oid").toString();
-				//System.out.println(">> Applicant ID: "  + id);
+	
 				msg.setBody(jsonObject);
 				msg.setHeader("id", id);
 
 			}
 		})
-		//.transform(body().convertToString())
+
+		.log("Start processing the application ${header.id} ...")
 		.bean(ProcessCriteria.class)
 		.choice()
 		.when(header("status").isEqualTo("qualified"))
 		//.to("jms:queue:applicant.queue")
 		.to("direct:multicast")
-		.log("Applicant qualified!")
+		.log("Application ${header.id} passed the primary qualification process")
 
 		.otherwise()
-				.to("direct:consumer")
-		.log("Applicant not qualified!");
-
-
-		// just for testing
-/*		from("jms:queue:multicast.queue")
-		.to ("file:target/messages/mongo");*/
-
+		.to("direct:consumer")
+		.log("Application ${header.id} did not pass the primary qualification process");
 
 	}
-
 }
