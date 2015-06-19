@@ -25,6 +25,7 @@ public class DepartmentAnswerRoute extends RouteBuilder {
         pc.setLocation("classpath:credentials.properties");
 
         from("direct:department")
+                .delay(getRandomTime(5000, 0)) //simulating answer after random amount of time
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -39,7 +40,7 @@ public class DepartmentAnswerRoute extends RouteBuilder {
                         String statusString = "";
                         Boolean status = getRandomBoolean();
                         if (status) {
-                           statusString = "accepted";
+                            statusString = "accepted";
                         } else {
                             statusString = "rejected";
                         }
@@ -62,4 +63,10 @@ public class DepartmentAnswerRoute extends RouteBuilder {
         Random random = new Random();
         return random.nextBoolean();
     }
+
+    public int getRandomTime (int max, int min){
+        Random random = new Random();
+        return random.nextInt(max - min + 1) + min;
+    }
+
 }
