@@ -14,9 +14,9 @@ public class MulticastRoute extends RouteBuilder {
 
                 //.to("direct:twitterpreproc", "direct:contentproc");//, "direct:startAggregator");
         		//.to("direct:twitterpreproc", "direct:startAggregator");
-        
 
-                .to("direct:twitterpreproc", "direct:mailqueue");//, "direct:startAggregator");
+
+                .to("direct:twitterpreproc");//, "direct:startAggregator, "direct:mailqueue"");
 
     }
 }

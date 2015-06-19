@@ -7,8 +7,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.json.simple.JSONObject;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import java.util.Random;
 
 /**
@@ -48,7 +46,7 @@ public class DepartmentAnswerRoute extends RouteBuilder {
 
                         msg.setHeader("subject", "ID: " + id + ", " + firstName + " " + lastName + ", STATUS: " + statusString);
 
-                        msg.addAttachment("LOR.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR.jpg")));
+                        //msg.addAttachment("LOR2.jpg", new DataHandler(new FileDataSource("src/data/attachments/LOR2.jpg")));
 
                     }
                 })
